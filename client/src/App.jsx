@@ -6,25 +6,34 @@ import Profile from "./components/pages/Profile";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Login from "./components/auth/Login";
+import Error404 from "./components/Error404";
+
+import { useDispatch, useSelector } from "react-redux";
+
+
 import "./assets/styles/App.css";
 
 function App() {
 
+  const darkMode = useSelector((state) => state.app.darkMode);
+   
   return (
     <div className="">
       <Navbar/>
 
-      <div className="page mt-[60px] bg-blue-200 min-h-screen ">
+      <div className="page mt-[60px] bg-blue-200 h-screen ">
 
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/profile" element={<Profile/>}/>
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/login" element={<Login darkMode={darkMode}/>}/>
+
+        <Route path="/*" element={<Error404 darkMode={darkMode}/>}/>
       </Routes>
       </div>
 
 
-      <Footer/>
+      <Footer darkMode={darkMode}/>
     </div>
   );
 }

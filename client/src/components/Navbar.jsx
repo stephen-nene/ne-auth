@@ -11,7 +11,7 @@ export default function Navbar() {
     const dispatch = useDispatch();
 
     return (
-        <header className="fixed top-0 w-full bg-white shadow-md z-10 ">
+        <header className={`fixed top-0 w-full ${darkMode?'bg-white':'bg-gray-800'}  shadow-md z-10 `}>
             <div className="container mx-auto px-4">
                 <nav className="flex items-center justify-between py-2">
                     <Link to="/" className="text-xl font-bold">Eblazz</Link>
