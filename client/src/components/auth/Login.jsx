@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-import { FaTiktok, FaXTwitter, FaInstagram, FaGithub, FaFacebookF, } from "react-icons/fa6";
+import { FaTiktok, FaXTwitter, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-
-import {message} from "antd"
-
-
-import leaf from '../../assets/images/tech1.jpeg'
+import { message } from "antd";
+import leaf from '../../assets/images/tech1.jpeg';
 
 export default function Login({ darkMode }) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Check if any field is missing data
+        if (!email || !password) {
+            message.error("Please fill in all fields");
+            return;
+        }
+
+        // Log in logic goes here
+        console.log("Logging in with:", { email, password });
+    };
+
     return (
         <div className="flex justify-center h-screen">
             <div className={`hidden lg:flex w-full lg:w-1/2 items-center justify-center ${darkMode ? 'bg-gray-100' : 'bg-gray-700'}`}>
@@ -30,9 +42,9 @@ export default function Login({ darkMode }) {
                     Continue on your path in our platform.
                 </p>
 
-                <form className="grid gap-4">
-                    <input className={`border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500`} type="text" placeholder="Enter your email" />
-                    <input className={`border border-gray-300  rounded-md py-2 px-3 focus:outline-none focus:border-blue-500`} type="password" placeholder="Password" />
+                <form className="grid gap-4" onSubmit={handleSubmit}>
+                    <input className={`border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500`} type="text" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input className={`border border-gray-300  rounded-md py-2 px-3 focus:outline-none focus:border-blue-500`} type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
                     <div className="flex items-center justify-between">
                         <label className="flex items-center text-sm">
@@ -55,20 +67,20 @@ export default function Login({ darkMode }) {
                     <p className={`text-sm text-gray-500 ${darkMode ? 'text-gray-700' : 'text-gray-300'} relative inline-block px-4  ${darkMode ? 'bg-gray-300' : 'bg-gray-800'} -top-[14px]`}>Or continue with</p>
                     <div className="text-3xl flex justify-center mt-4">
                         <button className={`rounded-full bg-white hover:bg-gray-900 text-white p-3 ${darkMode ? ' text-gray-900' : ''}`}>
-                            <FcGoogle onClick={()=>message.info('comming soon')}/>
+                            <FcGoogle onClick={() => message.info('Coming soon')} />
                         </button>
 
                         <button className={`rounded-full bg-blue-500 hover:bg-blue-700 text-white ml-4 p-3 ${darkMode ? ' text-gray-900' : ''}`}>
-                            <FaFacebookF onClick={()=>message.info('comming soon')} />
+                            <FaFacebookF onClick={() => message.info('Coming soon')} />
                         </button>
                         <button className={`rounded-full bg-gray-600 hover:bg-black text-white p-3 ml-4 ${darkMode ? ' text-gray-900' : ''}`}>
-                            <FaXTwitter onClick={()=>message.info('comming soon')}/>
+                            <FaXTwitter onClick={() => message.info('Coming soon')} />
                         </button>
                         <button className={`rounded-full bg-rose-500 hover:bg-rose-700 text-white p-3 ml-4 ${darkMode ? ' text-gray-900' : ''}`}>
-                            <FaInstagram onClick={()=>message.info('comming soon')}/>
+                            <FaInstagram onClick={() => message.info('Coming soon')} />
                         </button>
                         <button className={`rounded-full bg-sky-500 hover:bg-sky-700 text-white p-3 ml-4 ${darkMode ? ' text-gray-900' : ''}`}>
-                            <FaGithub onClick={()=>message.info('comming soon')}/>
+                            <FaGithub onClick={() => message.info('Coming soon')} />
                         </button>
                     </div>
                 </div>

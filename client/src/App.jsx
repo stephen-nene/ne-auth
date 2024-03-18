@@ -6,6 +6,7 @@ import Profile from "./components/pages/Profile";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
 import Error404 from "./components/Error404";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/login" element={<Login darkMode={darkMode}/>}/>
+        <Route path="/register" element={<Signup darkMode={darkMode}/>}/>
 
         <Route path="/*" element={<Error404 darkMode={darkMode}/>}/>
       </Routes>
