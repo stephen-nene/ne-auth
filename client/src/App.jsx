@@ -21,7 +21,7 @@ function App() {
     <div className="">
       <Navbar/>
 
-      <div className="page mt-[60px] bg-blue-200 h-screen ">
+      <div className={`mt-[60px] ${darkMode?'bg-blue-100':'bg-blue-950'}  h-screen `} >
 
       <Routes>
         <Route path="/" element={<Home/>}/>

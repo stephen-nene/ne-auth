@@ -11,35 +11,33 @@ export default function Navbar() {
     const dispatch = useDispatch();
 
     return (
-        <header className={`fixed top-0 w-full ${darkMode?'bg-white':'bg-gray-800'}  shadow-md z-10 `}>
+        <header className={`fixed top-0 w-full ${darkMode ? 'bg-sky-500' : 'bg-sky-900'}  shadow-md z-10 `}>
             <div className="container mx-auto px-4">
-                <nav className="flex items-center justify-between py-2">
+                <nav className="flex items-center justify-between py-3">
                     <Link to="/" className="text-xl font-bold">Eblazz</Link>
                     <div className="flex items-center space-x-4">
                         <Link to="/profile" className="text-gray-700 hover:text-gray-900">Profile</Link>
                         <Link to="/login" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Get Started</Link>
                     </div>
-                    <div className="right">
+                    <div className="right ">
                         {darkMode ?
                             (
-
-                                <button
+                                <MdDarkMode
                                     onClick={() => {
                                         dispatch(setDarkMode());
                                     }}
-                                    className="p-2 text-xl border-2 hover:bg-slate-700 bg-slate-600 rounded-lg"
-                                >
-                                    <MdDarkMode size={25} />
-                                </button>
+                                    className="text-gray-500 hover:text-gray-900 hover:cursor-pointer"
+                                    size={35}
+                                />
                             ) :
-                            <button
+
+                            <MdLightMode
                                 onClick={() => {
                                     dispatch(setDarkMode());
                                 }}
-                                className="p-2 text-xl border-2 hover:bg-yellow-500 bg-yellow-600 rounded-lg"
-                            >
-                                <MdLightMode size={25} />
-                            </button>
+                                className="  text-yellow-500 hover:text-yellow-600 hover:cursor-pointer"
+                                size={35}
+                            />
                         }
 
                     </div>
