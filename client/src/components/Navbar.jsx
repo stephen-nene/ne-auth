@@ -35,7 +35,7 @@ export default function Navbar() {
                                 onClick={() => {
                                     dispatch(setDarkMode());
                                 }}
-                                className="  text-yellow-500 hover:text-yellow-600 hover:cursor-pointer"
+                                className="text-yellow-500 hover:text-yellow-600 hover:cursor-pointer"
                                 size={35}
                             />
                         }

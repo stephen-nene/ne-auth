@@ -7,6 +7,9 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
+import Forgot from "./components/auth/Forgot";
+import Reset from "./components/auth/reset";
+
 import Error404 from "./components/Error404";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -22,13 +25,16 @@ function App() {
     <div className="">
       <Navbar/>
 
-      <div className={`mt-[60px] ${darkMode?'bg-blue-100':'bg-blue-950'}  h-screen `} >
+      <div className={`mt-[60px] ${darkMode?'bg-blue-100':'bg-blue-950'}  min-h-screen `} >
 
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/profile" element={<Profile/>}/>
+        <Route path="/" element={<Home darkmode={darkMode}/>}/>
+        <Route path="/profile" element={<Profile darkMode={darkMode}/>}/>
         <Route path="/login" element={<Login darkMode={darkMode}/>}/>
         <Route path="/register" element={<Signup darkMode={darkMode}/>}/>
+
+        <Route path="/forgot" element={<Forgot darkMode={darkMode}/>}/>
+        <Route path="/reset/:secret" element={<Reset darkMode={darkMode}/>}/>
 
         <Route path="/*" element={<Error404 darkMode={darkMode}/>}/>
       </Routes>
