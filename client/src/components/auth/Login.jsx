@@ -32,20 +32,21 @@ export default function Login({ darkMode }) {
             {/* Left Side */}
             <div className={`hidden lg:flex w-full lg:w-1/2 items-center justify-center ${darkMode ? 'bg-gray-100' : 'bg-gray-700'}`}>
                 {/* Left Side Content */}
-                <div className="p-6 rounded-md">
+                <div className="p-6 rounded-md text-center">
                     <h1 className="text-4xl font-bold">Welcome back to</h1>
                     <span className="text-6xl font-semibold text-white transform -translate-y-1/2 mb-2">
                         <span className="text-orange-600">Eco</span>
                         <span className="text-green-600">Blazz</span>
                     </span>
-                    <img src={leaf} className="mt-3 mx-auto max-w-[600px] h-auto" alt="Leaf" />
+                    <img src={leaf} className="mt-3 mx-auto max-w-full h-auto" alt="Leaf" />
                     <p className={`text-lg ${darkMode ? '' : 'text-gray-300'} mt-2`}>Empowering sustainable solutions for a brighter tomorrow.</p>
                 </div>
+
             </div>
 
             {/* Right Side */}
             <div className={`flex flex-col justify-center w-full lg:w-1/2  ${darkMode ? 'bg-gray-300' : 'bg-gray-800'} p-8`}>
-                <h1 className="text-3xl font-bold mb-4">Sign in to your account</h1>
+                <h1 className={`text-3xl font-bold mb-4`}>Sign in to your account</h1>
                 <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
                     Continue on your path in our platform.
                 </p>
@@ -97,7 +98,7 @@ export default function Login({ darkMode }) {
                         </button>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     );

@@ -1,48 +1,131 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { NavLink, Link } from "react-router-dom";
+import { FaBarsStaggered, FaMoon, FaRegSun, FaSchool } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
+
+
 
 import { setDarkMode } from "../assets/store/actions/appAction";
 
-export default function Navbar() {
 
-    const darkMode = useSelector((state) => state.app.darkMode);
-    const dispatch = useDispatch();
 
-    return (
-        <header className={`fixed top-0 w-full ${darkMode ? 'bg-sky-500' : 'bg-sky-950'}  shadow-md z-10 `}>
-            <div className="container mx-auto px-4">
-                <nav className="flex items-center justify-between py-3">
-                    <Link to="/" className="text-xl font-bold">Eblazz</Link>
-                    <div className="flex items-center space-x-4">
-                        <Link to="/profile" className="text-gray-700 hover:text-gray-900">Profile</Link>
-                        <Link to="/login" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Get Started</Link>
-                    </div>
-                    <div className="right ">
-                        {darkMode ?
-                            (
-                                <MdDarkMode
-                                    onClick={() => {
-                                        dispatch(setDarkMode());
-                                    }}
-                                    className="text-gray-500 hover:text-gray-900 hover:cursor-pointer"
-                                    size={35}
-                                />
-                            ) :
+function Navbar({ loggedin = !true }) {
+  const [toggleMenu, setToggleMenu] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navigationRef = useRef();
 
-                            <MdLightMode
-                                onClick={() => {
-                                    dispatch(setDarkMode());
-                                }}
-                                className="text-yellow-500 hover:text-yellow-600 hover:cursor-pointer"
-                                size={35}
-                            />
-                        }
+  const darkMode = useSelector(state => state.app.darkMode);
 
-                    </div>
-                </nav>
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        navigationRef.current &&
+        !navigationRef.current.contains(event.target)
+      ) {
+        setToggleMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div
+      className={`fixed top-0 w-full z-10 duration-100 ease-in-out ${darkMode ? 'bg-sky-500 text-black' : 'bg-sky-950 text-white'}  bg-opacity- backdrop-blur-xl
+   ${!isScrolled && !toggleMenu ? "bg-transparen" : "  "}`}
+    >
+      <nav>
+        <div className="max-w-9xl mx-auto">
+          <div className="flex mx-auto justify-between w-5/6 ">
+            {/* Primary menu and logo */}
+            <div className="flex items-center gap-16 my-7">
+              {/* logo */}
+              <div>
+                <Link
+                  to="/"
+                  className="flex gap-1 font-bold  hover:text-yellow-500 items-center "
+                >
+                  <FaSchool className="h-6 w-6 text-primary" />
+                  <span>Logo</span>
+                </Link>
+              </div>
+              {/* primary */}
+              <div className="hidden  lg:flex items-center gap-8 ">
+                <Link to="/" className="">
+                  Home
+                </Link>
+                <Link className="" to="/shop">Shop</Link>
+                <Link className="" to="#">Contact Us</Link>
+                <Link to="/profile" className="" >Profile</Link>
+                <button >
+                  {loggedin ? <Link>Dashboard</Link> : <Link to='/login'>Get-Started</Link>}
+
+
+                </button>
+              </div>
             </div>
-        </header>
-    );
+            {/* secondary */}
+            <div className={`flex gap-4 ${!darkMode ? 'text-white' : 'text-black'}`}>
+
+              <div className="flex items-center">
+                <div className={` hover:text-yellow-500  `} onClick={() => dispatch(setDarkMode(!darkMode))}>
+                  {darkMode ? <FaMoon size={25} /> : <FaRegSun size={25} />}
+                </div>
+              </div>
+              {/* Mobile navigation toggle */}
+              <div className="lg:hidden flex items-center ">
+                <div
+                  className={`cursor-pointer  hover:text-yellow-500  `}
+                  onClick={() => setToggleMenu(!toggleMenu)}
+                >
+                  {!toggleMenu ? <FaBarsStaggered size={25} /> : <IoClose className=' text-3xl' />}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* mobile navigation */}
+        <div
+          className={`fixed  w-full ${darkMode ? 'bg-sky-500' : 'bg-sky-950'} duration-100 ease-in-out bg-opacity- backdrop-blur-xl overflow-hidden flex flex-col lg:hidden gap-12   ${!toggleMenu ? "h-0" : "h-"
+            }`}
+        >
+          <div className="pl-16 ">
+            <div className="flex flex-col gap-8 font-bold tracking-wider items-start m-3">
+              <Link href="/" className="">
+                Home
+              </Link>
+              <Link href="/shop">Shop</Link>
+              <Link href="#">Contact-us</Link>
+              <Link to="/profile" >Profile</Link>
+              <button>
+                {loggedin ? <Link to="/">Dashboard</Link> : <Link to="/login">Get-Started</Link>}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  );
 }
+
+export default Navbar;

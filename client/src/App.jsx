@@ -5,6 +5,8 @@ import Home from './components/pages/Home'
 import Profile from "./components/pages/Profile";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Shop from "./components/pages/Shop";
+
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Forgot from "./components/auth/Forgot";
@@ -35,13 +37,14 @@ function App() {
     <div className="">
       <Navbar />
 
-      <div className={`mt-[60px] ${darkMode ? 'bg-blue-100' : 'bg-blue-950'}  min-h-screen `} >
+      <div className={`mt-[80px] ${darkMode ? 'bg-blue-600' : 'bg-blue-950'}  min-h-screen `} >
 
         <Routes>
           <Route path="/" element={<Home darkmode={darkMode} />} />
           <Route path="/profile" element={<Profile darkMode={darkMode} />} />
           <Route path="/login" element={<Login darkMode={darkMode} />} />
           <Route path="/register" element={<Signup darkMode={darkMode} />} />
+          <Route path="/shop" element={<Shop darkMode={darkMode} />} />
          {/* Protected Route */}
          <Route
             path="/profile"
