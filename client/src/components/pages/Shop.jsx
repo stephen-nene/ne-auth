@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Shop() {
     return (
-        <div className="mt-[100px] p-5">
+        <div className="p-5">
 
         <div className=" flex  items-cente justify-cente h-screen">
             <p>sss</p>
