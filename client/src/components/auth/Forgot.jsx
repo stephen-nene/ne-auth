@@ -1,30 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaTiktok, FaXTwitter, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
 import { message } from "antd";
 import leaf from '../../assets/images/tech1.jpeg';
 
 export default function Forgot({ darkMode }) {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(false);
-
-    const handleRememberMeChange = () => {
-        setRememberMe((prevRememberMe) => !prevRememberMe);
-    };
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Check if any field is missing data
-        if (!email || !password) {
+        if (!email) {
             message.error("Please fill in all fields");
             return;
         }
-
-        // Log in the user
-        console.log("Login credentials:", { email, password, rememberMe });
+        console.log("reset email", { email });
     };
 
     return (
@@ -45,43 +35,58 @@ export default function Forgot({ darkMode }) {
 
             {/* Right Side */}
             <div className={`flex flex-col justify-center w-full lg:w-1/2  ${darkMode ? 'bg-gray-300' : 'bg-gray-800'} p-8`}>
-                <h1 className="text-3xl font-bold mb-4">Forgot Something?</h1>
-                <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
-                    Enter your email below to receive a reset link.
-                </p>
+                {!message ? (
 
-                {/* Login Form */}
-                <form className="grid gap-4" onSubmit={handleSubmit}>
-                    <input
-                        className={`border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500`}
-                        type="text"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <div className="reset">
 
-                    {/* Remember Me Checkbox */}
-                    <div className="flex items-center justify-between">
-                        {/* <label className="flex items-center text-sm">
-                            <input type="checkbox" className="mr-2" checked={rememberMe} onChange={handleRememberMeChange} />
-                            <span className={`${darkMode ? 'text-gray-800' : 'text-gray-300'}`}>Remember me</span>
-                        </label> */}
-                        <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>
-                            Already registered ? {" "}
-                            <Link to="/login" className={`text-blue-500 ${darkMode ? 'dark:text-blue-400' : ''}`} >
-                                Login
-                            </Link>
+                        <h1 className="text-3xl font-bold mb-4">Forgot Something?</h1>
+                        <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
+                            Enter your email below to receive a reset link.
                         </p>
 
+                        {/* Login Form */}
+                        <form className="grid gap-5 my-5" onSubmit={handleSubmit}>
+                            <input
+                                className={`border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500`}
+                                type="email"
+                                placeholder="Enter your email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            {error && 
+                            <p className={`text-rose-600 ${darkMode ? 'text-gray-400' : ''} `}>
+                                No account is associated with that email.
+                            </p>
+                            }
+                            <button className={`bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}>
+                                Reset
+                            </button>
+                        </form>
                     </div>
+                ) : (
 
-                    {/* Login Button */}
-                    <button className={`bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}>
-                        Reset
-                    </button>
-                </form>
+                    <div className="message">
+                        <h1 className="text-3xl font-bold mb-4">Forgot Something?</h1>
+                        <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
+                            An email has been sent to your inbox, Please check it.
+                        </p>
 
-                {/* Not Registered */}
+                        <p className={`text-rose-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
+                            No account is associated with that email.
+                        </p>
+                    </div>
+                )}
+
+                <div className="flex items-center justify-between mt-4">
+                    <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>
+                        Already registered ? {" "}
+                        <Link to="/login" className={`text-blue-500 ${darkMode ? 'dark:text-blue-400' : ''}`} >
+                            Login
+                        </Link>
+                    </p>
+
+                </div>
+
                 <div className="my-7">
                     <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>Not registered? <Link to="/register" className={`text-blue-500 ${darkMode ? 'dark:text-blue-400' : ''}`}>Create an account</Link></p>
                 </div>
