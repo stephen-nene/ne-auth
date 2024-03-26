@@ -6,6 +6,7 @@ import Profile from "./components/pages/Profile";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Shop from "./components/pages/Shop";
+import Dashboard from "./components/pages/Dashboard";
 
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
@@ -45,6 +46,7 @@ function App() {
           <Route path="/login" element={<Login darkMode={darkMode} />} />
           <Route path="/register" element={<Signup darkMode={darkMode} />} />
           <Route path="/shop" element={<Shop darkMode={darkMode} />} />
+          <Route path="/dash" element={<Dashboard darkMode={darkMode} />} />
          {/* Protected Route */}
          <Route
             path="/profile"

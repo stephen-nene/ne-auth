@@ -75,10 +75,10 @@ function Navbar({ loggedin = !true }) {
                   Home
                 </Link>
                 <Link className="" to="/shop">Shop</Link>
-                <Link className="" to="#">Contact Us</Link>
+                {/* <Link className="" to="#">Contact Us</Link> */}
                 <Link to="/profile" className="" >Profile</Link>
                 <button >
-                  {loggedin ? <Link>Dashboard</Link> : <Link to='/login'>Get-Started</Link>}
+                  {!loggedin ? <Link to='/dash'>Dashboard</Link> : <Link to='/login'>Get-Started</Link>}
 
 
                 </button>
@@ -114,11 +114,11 @@ function Navbar({ loggedin = !true }) {
               <Link href="/" className="">
                 Home
               </Link>
-              <Link href="/shop">Shop</Link>
-              <Link href="#">Contact-us</Link>
+              <Link to="/shop">Shop</Link>
+              {/* <Link href="#">Contact-us</Link> */}
               <Link to="/profile" >Profile</Link>
               <button>
-                {loggedin ? <Link to="/">Dashboard</Link> : <Link to="/login">Get-Started</Link>}
+                {loggedin ? <Link to="/dash">Dashboard</Link> : <Link to="/login">Get-Started</Link>}
               </button>
             </div>
           </div>
