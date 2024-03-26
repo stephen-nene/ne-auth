@@ -35,7 +35,7 @@ export default function Reset({ darkMode }) {
         console.log("User data:", { password, confirmPassword });
     };
 
-
+    
     return (
         <div className="flex justify-center h-screen">
             {/* Left Side */}
