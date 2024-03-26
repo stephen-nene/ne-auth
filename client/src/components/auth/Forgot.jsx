@@ -38,7 +38,7 @@ export default function Forgot({ darkMode }) {
                         <span className="text-orange-600">Eco</span>
                         <span className="text-green-600">Blazz</span>
                     </span>
-                    <img src={leaf} className="mt-3 mx-auto max-w-[600px] h-auto" alt="Leaf" />
+                    <img src={leaf} className="mt-3 mx-auto max-w-full h-auto" alt="Leaf" />
                     <p className={`text-lg ${darkMode ? '' : 'text-gray-300'} mt-2`}>Empowering sustainable solutions for a brighter tomorrow.</p>
                 </div>
             </div>

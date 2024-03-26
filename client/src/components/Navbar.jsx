@@ -58,7 +58,7 @@ function Navbar({ loggedin = !true }) {
         <div className="max-w-9xl mx-auto">
           <div className="flex mx-auto justify-between w-5/6 ">
             {/* Primary menu and logo */}
-            <div className="flex items-center gap-16 my-4">
+            <div className="flex items-center gap-16 my-5">
               {/* logo */}
               <div>
                 <Link

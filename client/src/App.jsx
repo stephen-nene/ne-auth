@@ -37,7 +37,7 @@ function App() {
     <div className="">
       <Navbar />
 
-      <div className={`m pt-[70px] ${darkMode ? 'bg-blue-600' : 'bg-blue-950'}  min-h-screen `} >
+      <div className={`m mt-[60px] ${darkMode ? 'bg-blue-600' : 'bg-blue-950'}  min-h-screen `} >
 
         <Routes>
           <Route path="/" element={<Home darkmode={darkMode} />} />
