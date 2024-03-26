@@ -1,5 +1,5 @@
 import { Navigate, Route } from "react-router-dom";
-import Unauthorised from "./Unauthorised";
+import Unauthorised from "./utils/Unauthorised";
 
 const ProtectedRoute = ({ element, userData, allowedRoles, fallbackPath }) => {
   const checkRole = (userData, allowedRoles) => {

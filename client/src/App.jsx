@@ -12,8 +12,8 @@ import Signup from "./components/auth/Signup";
 import Forgot from "./components/auth/Forgot";
 import Reset from "./components/auth/reset";
 
-import Error404 from "./components/Error404";
-import Unauthorised from "./components/Unauthorised";
+import Error404 from "./components/utils/Error404";
+import Unauthorised from "./components/utils/Unauthorised";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import { useDispatch, useSelector } from "react-redux";
