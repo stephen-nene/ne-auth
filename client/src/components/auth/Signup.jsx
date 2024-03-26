@@ -9,6 +9,7 @@ export default function Signup({ darkMode }) {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -52,7 +53,7 @@ export default function Signup({ darkMode }) {
 
             {/* Right Side */}
             <div className={`flex flex-col justify-center w-full lg:w-1/2  ${darkMode ? 'bg-gray-300' : 'bg-gray-800'} p-8`}>
-                <h1 className="text-3xl font-bold mb-4">Create an account</h1>
+                <h1 className={`text-3xl font-bold ${darkMode ? 'black' : 'text-white'} mb-4`}>Create an account</h1>
                 <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
                     Start a new path in our platform.
                 </p>
@@ -79,7 +80,11 @@ export default function Signup({ darkMode }) {
                         Register
                     </button>
                 </form>
-
+                {error &&
+                    <p className={`mt-4 text-rose-600 ${darkMode ? 'text-gray-400' : ''} `}>
+                        No account is associated with that email.
+                    </p>
+                }
                 {/* Already Registered */}
                 <div className="my-7">
                     <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>Already registered? <Link to="/login" className={`text-blue-500 ${darkMode ? 'dark:text-blue-400' : ''}`}>Login instead</Link></p>
@@ -93,7 +98,6 @@ export default function Signup({ darkMode }) {
                         <button className={`rounded-full bg-white hover:bg-gray-900 text-white p-3 ${darkMode ? ' text-gray-900' : ''}`}>
                             <FcGoogle onClick={() => message.info('Coming soon')} />
                         </button>
-
                         <button className={`rounded-full bg-blue-500 hover:bg-blue-700 text-white ml-4 p-3 ${darkMode ? ' text-gray-900' : ''}`}>
                             <FaFacebookF onClick={() => message.info('Coming soon')} />
                         </button>

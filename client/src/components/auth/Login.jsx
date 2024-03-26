@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaTiktok, FaXTwitter, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
+import { FaTiktok, FaXTwitter, FaEye, FaEyeSlash, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
+
 import { FcGoogle } from "react-icons/fc";
 import { message } from "antd";
 import leaf from '../../assets/images/tech1.jpeg';
@@ -8,11 +9,17 @@ import leaf from '../../assets/images/tech1.jpeg';
 export default function Login({ darkMode }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("")
     const [rememberMe, setRememberMe] = useState(false);
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
     const handleRememberMeChange = () => {
         setRememberMe((prevRememberMe) => !prevRememberMe);
     };
+    const togglePasswordVisibility = () => {
+        setPasswordVisible((prevState) => !prevState);
+    };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -53,8 +60,11 @@ export default function Login({ darkMode }) {
 
                 {/* Login Form */}
                 <form className="grid gap-4" onSubmit={handleSubmit}>
-                    <input className={`border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500`} type="text" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <input className={`border border-gray-300  rounded-md py-2 px-3 focus:outline-none focus:border-blue-500`} type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input className={`border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500`} type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <div className="relative">
+                        <input className={`border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 w-full`} type={passwordVisible ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        {passwordVisible ? <FaEyeSlash className="absolute inset-y-3 right-6 cursor-pointer" onClick={togglePasswordVisibility} /> : <FaEye className="absolute inset-y-3 right-6 cursor-pointer" onClick={togglePasswordVisibility} />}
+                    </div>
 
                     {/* Remember Me Checkbox */}
                     <div className="flex items-center justify-between">
@@ -70,7 +80,11 @@ export default function Login({ darkMode }) {
                         Sign in
                     </button>
                 </form>
-
+                {error &&
+                    <p className={`mt-4 text-rose-600 ${darkMode ? 'text-gray-400' : ''} `}>
+                        No account is associated with that email.
+                    </p>
+                }
                 {/* Not Registered */}
                 <div className="my-7">
                     <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>Not registered? <Link to="/register" className={`text-blue-500 ${darkMode ? 'dark:text-blue-400' : ''}`}>Create an account</Link></p>
