@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
       @user = User.new(user_params)
   
       if @user.save
-        # UserMailer.change_password(@user).deliver_later
+        UserMailer.welcome_email(@user).deliver_later
   
         render json: { user: @user }, status: :created, location: @user
       else
