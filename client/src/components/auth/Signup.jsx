@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { FaTiktok, FaXTwitter, FaInstagram, FaGithub, FaFacebookF, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { message } from "antd";
+import axios from 'axios';
+
 import leaf from '../../assets/images/tech1.jpeg';
 
 export default function Signup({ darkMode }) {
@@ -24,15 +26,23 @@ export default function Signup({ darkMode }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         // Check if any field is missing data
         if (!username || !email || !password || !confirmPassword) {
             message.error("Please fill in all fields");
             return;
         }
-
-        // Log user data to console
-        console.log("User data:", { username, email, password, confirmPassword });
+    
+        const userData = { username, email, password };
+    
+        axios.post('http://127.0.0.1:3000/create', userData)
+        .then(response => {
+            message.success("User data sent successfully");
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            message.error("Failed to send user data");
+        });
     };
 
     return (

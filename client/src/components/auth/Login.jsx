@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTiktok, FaXTwitter, FaEye, FaEyeSlash, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
 
+import axios from 'axios';
 import { FcGoogle } from "react-icons/fc";
 import { message } from "antd";
 import leaf from '../../assets/images/tech1.jpeg';
@@ -21,17 +22,30 @@ export default function Login({ darkMode }) {
     };
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
+        // Destructure email, password, and rememberMe from state or wherever you store them
+        
         // Check if any field is missing data
         if (!email || !password) {
             message.error("Please fill in all fields");
             return;
         }
 
-        // Log in the user
-        console.log("Login credentials:", { email, password, rememberMe });
+        try {
+            // Send login request to the backend
+            const response = await axios.post('http://127.0.0.1:3000/login', { email, password, rememberMe });
+    
+            // Handle successful login response
+            console.log("Login successful:", response.data);
+            // Redirect user or perform any other actions as needed
+    
+        } catch (error) {
+            // Handle login error
+            console.error("Login failed:", error.response.data.error);
+            // Display error message to the user or perform other error handling
+        }
     };
 
     return (
