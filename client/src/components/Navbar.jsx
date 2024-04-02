@@ -4,19 +4,13 @@ import { NavLink, Link } from "react-router-dom";
 import { FaBarsStaggered, FaMoon, FaRegSun, FaSchool } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 
-
-
 import { setDarkMode } from "../assets/store/actions/appAction";
-
-
 
 function Navbar({ loggedin = !true }) {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigationRef = useRef();
-
   const darkMode = useSelector(state => state.app.darkMode);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,8 +43,13 @@ function Navbar({ loggedin = !true }) {
     };
   }, []);
 
+  const handleLinkClick = () => {
+    setToggleMenu(false); // Close the menu when a link is clicked
+  };
+
   return (
     <div
+    ref={navigationRef}
       className={`fixed top-0 w-full z-10 duration-100 ease-in-out ${darkMode ? 'bg-sky-500 text-black' : 'bg-sky-950 text-white'}  bg-opacity- backdrop-blur-xl
    ${!isScrolled && !toggleMenu ? "bg-transparen" : "  "}`}
     >
@@ -63,6 +62,7 @@ function Navbar({ loggedin = !true }) {
               <div>
                 <Link
                   to="/"
+                  onClick={handleLinkClick}
                   className="flex gap-1 font-bold  hover:text-yellow-500 items-center "
                 >
                   <FaSchool className="h-6 w-6 text-primary" />
@@ -71,22 +71,19 @@ function Navbar({ loggedin = !true }) {
               </div>
               {/* primary */}
               <div className="hidden  lg:flex items-center gap-8 ">
-                <Link to="/" className="">
+                <Link to="/" className="" onClick={handleLinkClick}>
                   Home
                 </Link>
-                <Link className="" to="/shop">Shop</Link>
-                {/* <Link className="" to="#">Contact Us</Link> */}
-                <Link to="/profile" className="" >Profile</Link>
-                <button >
+                <Link className="" to="/shop" onClick={handleLinkClick}>Shop</Link>
+                <Link className="" to="/dash" onClick={handleLinkClick}>Dashboard</Link>
+                <Link to="/profile" className="" onClick={handleLinkClick}>Profile</Link>
+                <button onClick={handleLinkClick}>
                   {!loggedin ? <Link to='/dash'>Dashboard</Link> : <Link to='/login'>Get-Started</Link>}
-
-
                 </button>
               </div>
             </div>
             {/* secondary */}
             <div className={`flex gap-4 ${!darkMode ? 'text-white' : 'text-black'}`}>
-
               <div className="flex items-center">
                 <div className={` hover:text-yellow-500  `} onClick={() => dispatch(setDarkMode(!darkMode))}>
                   {darkMode ? <FaMoon size={25} /> : <FaRegSun size={25} />}
@@ -111,13 +108,12 @@ function Navbar({ loggedin = !true }) {
         >
           <div className="pl-16 ">
             <div className="flex flex-col gap-8 font-bold tracking-wider items-start m-3">
-              <Link href="/" className="">
+              <Link to="/" className="" onClick={handleLinkClick}>
                 Home
               </Link>
-              <Link to="/shop">Shop</Link>
-              {/* <Link href="#">Contact-us</Link> */}
-              <Link to="/profile" >Profile</Link>
-              <button>
+              <Link to="/shop" onClick={handleLinkClick}>Shop</Link>
+              <Link to="/profile" onClick={handleLinkClick}>Profile</Link>
+              <button onClick={handleLinkClick}>
                 {loggedin ? <Link to="/dash">Dashboard</Link> : <Link to="/login">Get-Started</Link>}
               </button>
             </div>

@@ -10,12 +10,12 @@ export default function Dashboard() {
     const dispatch = useDispatch();
 
     return (
-        <div className={` ${darkMode ? 'bg-white' : 'bg-black'}  z-10 `}>
+        <div className={` ${darkMode ? 'bg-white text-gray-900' : 'bg-black text-gray-100' }  z-10 `}>
             <div className="p-8">
 
                 <div className=" flex  items-cente justify-cente h-screen">
                     {/* <p>sss</p> */}
-                    <h1 className="text-5xl font-bold text-gray-900 mb-4">Dash</h1>
+                    <h1 className="text-5xl font-bold  mb-4">Dash</h1>
                 </div>
             </div>
         </div>
