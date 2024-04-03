@@ -41,6 +41,30 @@ export const handleServerLogin = async (dispatch, formData, navigate) => {
   }
 };
 
+export const handleForgotPass= async (email, setMessage, setError) => {
+  const loadingMessage = showMessage('loading', 'Sending email...', 0);
+  try {
+    const response = await axios.post(`${apiUrl}/forgot`, {email});
+    console.log(response)
+    if (response.status == 200) {
+      setMessage(response.data);
+      showMessage('success', 'Account reset intiated', 1);
+    } else {
+      showMessage('error', 'Account reset failed. Please try again .', 1);
+    }
+  } catch (error) {
+    console.log(error)
+    if (error.response && error.response.data && error.response.data.error) {
+      showMessage('error', error.response.data.error);
+      setError(error.response.data.error);
+    } else {
+      showMessage('error', 'server error. Please try again later.');
+    }
+  } finally {
+    loadingMessage();
+  }
+}
+
 export const handleServerSignup = async (formData, setError, dispatch, navigate) => {
   const loadingMessage = showMessage('loading', 'Signing up...', 0);
 

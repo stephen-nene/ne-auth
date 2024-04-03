@@ -5,6 +5,8 @@ import { FcGoogle } from "react-icons/fc";
 import { message } from "antd";
 import leaf from '../../assets/images/tech2.jpeg';
 
+import {handleForgotPass} from '../utils/ServerCom'
+
 export default function Reset({ darkMode }) {
     const [error, serError] = useState("")
     const [loading, setLoading] = useState(false)
@@ -32,6 +34,7 @@ export default function Reset({ darkMode }) {
         }
 
         // Log user data to console
+        handleForgotPass
         console.log("User data:", { password, confirmPassword });
     };
 

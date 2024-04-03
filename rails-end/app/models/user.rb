@@ -4,6 +4,8 @@ class User < ApplicationRecord
 
     has_secure_password
 
+    has_many :tokens,  dependent: :destroy
+
     validates :username, presence: true, uniqueness: true
     before_save { self.email = email.downcase }
     VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
