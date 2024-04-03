@@ -26,9 +26,4 @@ export default defineConfig(async () => ({
       ignored: ["**/src-tauri/**"],
     },
   },
-  css: {
-    postcss:{
-      plugins:[tailwindcss]
-    }
-  },
 }));

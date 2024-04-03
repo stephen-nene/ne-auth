@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaTiktok, FaXTwitter, FaEye, FaEyeSlash, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
-
-import axios from 'axios';
+import { FaXTwitter, FaEye, FaEyeSlash, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { message } from "antd";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+
+import { handleServerLogin } from '../utils/ServerCom'
 import leaf from '../../assets/images/tech1.jpeg';
 
 export default function Login({ darkMode }) {
@@ -13,6 +16,9 @@ export default function Login({ darkMode }) {
     const [error, setError] = useState("")
     const [rememberMe, setRememberMe] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleRememberMeChange = () => {
         setRememberMe((prevRememberMe) => !prevRememberMe);
@@ -24,28 +30,15 @@ export default function Login({ darkMode }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         // Destructure email, password, and rememberMe from state or wherever you store them
-        
+
         // Check if any field is missing data
         if (!email || !password) {
             message.error("Please fill in all fields");
             return;
         }
-
-        try {
-            // Send login request to the backend
-            const response = await axios.post('http://127.0.0.1:3000/login', { email, password, rememberMe });
-    
-            // Handle successful login response
-            console.log("Login successful:", response.data);
-            // Redirect user or perform any other actions as needed
-    
-        } catch (error) {
-            // Handle login error
-            console.error("Login failed:", error.response.data.error);
-            // Display error message to the user or perform other error handling
-        }
+        handleServerLogin(dispatch, { email, password, rememberMe }, navigate)
     };
 
     return (

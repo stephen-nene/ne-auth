@@ -2,13 +2,13 @@
 import axios from "axios";
 import { message } from "antd";
 
-import { login, logout, signupAction } from "./store/actions/userAction"
-import { setArticles, setMeetings, setUsers, createUser, setAddNewMeeting, setAddNewArticle, deleteArticle, updateMeetingStatus, updateArticleStatus } from "./store/actions/appAction";
+import { login, logout, signupAction } from "../../assets/store/actions/userAction"
+// import { setArticles, setMeetings, setUsers, createUser, setAddNewMeeting, setAddNewArticle, deleteArticle, updateMeetingStatus, updateArticleStatus } from "./store/actions/appAction";
 
 
-// const apiUrl = 'http://127.0.0.1:3000/api'
+const apiUrl = 'http://127.0.0.1:3000'
 // const apiUrl = 'https://www.fountainofhopepsychotherapy.com/api'
-const apiUrl = '/api'
+// const apiUrl = '/api'
 
 function showMessage(type, content, duration) {
   return message[type]({
@@ -23,10 +23,10 @@ export const handleServerLogin = async (dispatch, formData, navigate) => {
   try {
     const response = await axios.post(`${apiUrl}/login`, formData);
     if (response.status == 200) {
-      // console.log(response.data)
-      dispatch(login(response.data));
+      console.log(response.data)
+      // dispatch(login(response.data));
       showMessage('success', 'Logged in successfully', 1);
-      navigate('/dashboard');
+      // navigate('/dashboard');
     } else {
       showMessage('error', 'Login failed. Please try again .', 1);
     }

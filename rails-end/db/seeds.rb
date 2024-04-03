@@ -19,9 +19,10 @@ users_data.each do |role, names|
     User.create!(
       first_name: name.capitalize,
       last_name: Faker::Name.last_name,
-      email: "#{name.downcase}@example.com",
+      email: "#{name.downcase}@ecoblazz.com",
       username: name.downcase,
-      password: BCrypt::Password.create('password'),
+      password: 'password',
+      # password: BCrypt::Password.create('password'),
       number: Faker::PhoneNumber.cell_phone,
       role: User.roles[role.to_s.singularize],
       status: User.statuses[:active],
