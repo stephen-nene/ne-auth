@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaXTwitter, FaEye, FaEyeSlash, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { handleServerLogin } from '../utils/ServerCom'
 import leaf from '../../assets/images/tech1.jpeg';
 
-export default function Login({ darkMode }) {
+export default function Login({ darkMode, userData }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("")
@@ -26,6 +26,16 @@ export default function Login({ darkMode }) {
     const togglePasswordVisibility = () => {
         setPasswordVisible((prevState) => !prevState);
     };
+
+    useEffect(() => {
+        if (userData && Object.keys(userData).length) {
+
+            message.success(`Already Logged in as ${userData.user.username}`);
+            // setTimeout(() => {
+            //     navigate("/profile");
+            // }, 5000);
+        }
+    }, [userData, navigate]);
 
 
     const handleSubmit = async (e) => {

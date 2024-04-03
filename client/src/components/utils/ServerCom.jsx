@@ -23,8 +23,8 @@ export const handleServerLogin = async (dispatch, formData, navigate) => {
   try {
     const response = await axios.post(`${apiUrl}/login`, formData);
     if (response.status == 200) {
-      console.log(response.data)
-      // dispatch(login(response.data));
+      // console.log(response.data)
+      dispatch(login(response.data));
       showMessage('success', 'Logged in successfully', 1);
       // navigate('/dashboard');
     } else {
