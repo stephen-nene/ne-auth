@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { message } from "antd";
 import leaf from '../../assets/images/tech1.jpeg';
+import {handleForgotPass} from '../utils/ServerCom'
 
 export default function Forgot({ darkMode }) {
     const [email, setEmail] = useState("");
@@ -14,6 +15,8 @@ export default function Forgot({ darkMode }) {
             message.error("Please fill in all fields");
             return;
         }
+
+        handleForgotPass(email, setMessage, setError);
         console.log("reset email", { email });
     };
 
@@ -67,13 +70,14 @@ export default function Forgot({ darkMode }) {
 
                     <div className="message">
                         <h1 className="text-3xl font-bold mb-4">Forgot Something?</h1>
-                        <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
-                            An email has been sent to your inbox, Please check it.
+                        <p className={`text-green-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
+                            {/* An email has been sent to your inbox, Please check it. */}
+                            {message.message}
                         </p>
 
-                        <p className={`text-rose-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
+                        {/* <p className={`text-rose-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
                             No account is associated with that email.
-                        </p>
+                        </p> */}
                     </div>
                 )}
 

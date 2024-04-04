@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTiktok, FaXTwitter, FaInstagram, FaGithub, FaFacebookF, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-import { message } from "antd";
+import { message, Alert } from "antd";
 import axios from 'axios';
 
 import leaf from '../../assets/images/tech1.jpeg';
@@ -26,23 +26,32 @@ export default function Signup({ darkMode }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         // Check if any field is missing data
         if (!username || !email || !password || !confirmPassword) {
             message.error("Please fill in all fields");
             return;
         }
-    
+
         const userData = { username, email, password };
-    
+
         axios.post('http://127.0.0.1:3000/create', userData)
-        .then(response => {
-            message.success("User data sent successfully");
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            message.error("Failed to send user data");
-        });
+            .then(response => {
+                console.log(response.data);
+                message.success("User data sent successfully");
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                if (Array.isArray(error.response.data)) {
+                    const errorMessage = error.response.data.join(", ");
+                    setError(errorMessage);
+                    message.error(errorMessage);
+                } else {
+                    setError(error.response.data);
+                    message.error(error.response.data);
+                }
+            });
+
     };
 
     return (
@@ -90,11 +99,23 @@ export default function Signup({ darkMode }) {
                         Register
                     </button>
                 </form>
-                {error &&
-                    <p className={`mt-4 text-rose-600 ${darkMode ? 'text-gray-400' : ''} `}>
-                        No account is associated with that email.
-                    </p>
-                }
+                {error && (
+                    <div>
+                        {Array.isArray(error) ? (
+                            <ul className={`mt-4 text-rose-600 ${darkMode ? 'text-gray-400' : ''}`}>
+                                {error && error.map((errMsg, index) => (
+                                    <Alert key={index} message={errMsg} type="error" showIcon />
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className={`mt-4 text-rose-600 ${darkMode ? 'text-gray-400' : ''}`}>
+                                {error}
+                            </p>
+                        )}
+                    </div>
+                )}
+
+
                 {/* Already Registered */}
                 <div className="my-7">
                     <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>Already registered? <Link to="/login" className={`text-blue-500 ${darkMode ? 'dark:text-blue-400' : ''}`}>Login instead</Link></p>

@@ -26,13 +26,7 @@ import "./assets/styles/App.css";
 function App() {
 
   const darkMode = useSelector((state) => state.app.darkMode);
-  // const userData = useSelector((state) => state.user.userData);
-  const userData = {
-    id: 1,
-    username: "john_doe",
-    email: "john@example.com",
-    role: "customer",
-  };
+  const userData = useSelector((state) => state.user.userData);
 
 
   return (
@@ -44,7 +38,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home darkmode={darkMode} />} />
           {/* <Route path="/profile" element={<Profile darkMode={darkMode} />} /> */}
-          <Route path="/login" element={<Login darkMode={darkMode} />} />
+          <Route path="/login" element={<Login darkMode={darkMode} userData={userData}/>} />
           <Route path="/register" element={<Signup darkMode={darkMode} />} />
           <Route path="/shop" element={<Shop darkMode={darkMode} />} />
           {/* <Route path="/dash" element={<Dashboard darkMode={darkMode} />} /> */}
@@ -53,19 +47,20 @@ function App() {
             element={
               <ProtectedRoute
                 element={<Dashboard darkMode={darkMode} />}
-                allowedRoles={["admin"]}
-                darkMode={darkMode} />}
+                allowedRoles={["admin"]} />}
           />
           <Route
             path="/profile"
             element={
               <ProtectedRoute
                 element={<Profile darkMode={darkMode} />}
-                allowedRoles={["admin,customer,employee"]} />}
+                allowedRoles={["admin", "customer", "employee"]}
+              />}
           />
 
+
           <Route path="/forgot" element={<Forgot darkMode={darkMode} />} />
-          <Route path="/reset/:secret" element={<Reset darkMode={darkMode} />} />
+          <Route path="/reset/:token" element={<Reset darkMode={darkMode} />} />
 
           <Route path="/unauthorized" element={<Unauthorised />} />
           <Route path="/not-logged-in" element={<NotLoggedIn />} />

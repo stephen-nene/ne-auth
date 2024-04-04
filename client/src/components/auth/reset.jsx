@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaTiktok, FaXTwitter, FaEye, FaEyeSlash, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { message } from "antd";
+import axios from "axios";
+import { useParams,useNavigate } from "react-router-dom";
+import {useDispatch} from "react-redux"
 import leaf from '../../assets/images/tech2.jpeg';
 
+import {handlePasswordUpdate} from '../utils/ServerCom'
+import { validateResetToken } from "../utils/ServerCom";
+
 export default function Reset({ darkMode }) {
-    const [error, serError] = useState("")
+    const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const [message, setMessage] = useState("")
+    const [servermessage, setServerMessage] = useState("")
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+    const { token } = useParams();
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        validateResetToken(token,setError,setServerMessage,setLoading);
+
+    }, [token]);
 
     const togglePasswordVisibility = () => {
         setPasswordVisible((prevState) => !prevState);
@@ -27,11 +41,11 @@ export default function Reset({ darkMode }) {
 
         // Check if any field is missing data
         if (!password || !confirmPassword) {
-            message.error("Please fill in all fields");
+            message.success("Please fill in all fields");
             return;
         }
+handlePasswordUpdate(token, password, navigate, setError,dispatch);
 
-        // Log user data to console
         console.log("User data:", { password, confirmPassword });
     };
 
@@ -63,13 +77,20 @@ export default function Reset({ darkMode }) {
 
                         <div className="">
                             <h1 className="text-3xl font-bold mb-4">Reset Your Password?</h1>
-                            <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
+                            <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} my-3`}>
                                 Change your password to a new one.
                             </p>
 
-                            {/* Reset Form */}
-                            <form className="grid gap-4" onSubmit={handleSubmit}>
 
+                                {servermessage &&
+                                    <>
+                                        <p className={`text-green-600 mb-8 ${darkMode ? 'text-gray-400' : ''} `}>
+                                            {servermessage}
+                                        </p>
+                                    </>
+                                }
+                            {/* Reset Form */}
+                            <form className="grid gap-4 " onSubmit={handleSubmit}>
 
                                 {/* Password Field */}
                                 <div className="relative">
@@ -78,20 +99,11 @@ export default function Reset({ darkMode }) {
                                 </div>
 
                                 {/* Confirm Password Field */}
-                                <div className="relative">
+                                <div className="relative mb-9">
                                     <input className={`border border-gray-300 rounded-md py-2 w-full px-3 focus:outline-none focus:border-blue-500 `} type={confirmPasswordVisible ? "text" : "password"} placeholder="Password confirmation" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                                     {confirmPasswordVisible ? <FaEyeSlash className="absolute inset-y-3 right-6 flex items-center cursor-pointer" onClick={toggleConfirmPasswordVisibility} /> : <FaEye className="absolute inset-y-3 right-6 flex items-center cursor-pointer" onClick={toggleConfirmPasswordVisibility} />}
                                 </div>
-                                {!message &&
-                                    <>
-                                        <p className={`text-green-600 ${darkMode ? 'text-gray-400' : ''} `}>
-                                            Successfully reset your password .
-                                        </p>
-                                        <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
-                                            You are now logged in.
-                                        </p>
-                                    </>
-                                }
+
                                 {/* Login Button */}
                                 <button className={`bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}>
                                     Submit
@@ -102,7 +114,7 @@ export default function Reset({ darkMode }) {
                         <div className="">
                             <h1 className="text-3xl font-bold mb-4">Error?</h1>
                             <p className={`text-rose-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
-                                The reset link you used is invalid.
+                                {error}
                             </p>
 
                             {/* Reset Form */}

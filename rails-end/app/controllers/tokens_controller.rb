@@ -1,51 +1,89 @@
-class TokensController < ApplicationController
-  before_action :set_token, only: %i[ show update destroy ]
 
-  # GET /tokens
-  def index
-    @tokens = Token.all
+  class TokensController < ApplicationController
+  before_action :set_user, only: [:create]
+  before_action :find_token_and_user, only: [:validate, :reset]
 
-    render json: @tokens
+  # validate
+  def validate
+    if @password_reset_token && @password_reset_token.expires_at > Time.now
+      # Token is valid, allow the user to reset the password
+      user = @password_reset_token.user
+      render json: { message: "valid password reset token for #{user.username} ", email: "#{user.email}" }
+    else
+      render json: { error: "The reset link used is invalid Invalid or expired token." }, status: :unprocessable_entity
+    end
   end
+  
 
-  # GET /tokens/1
-  def show
-    render json: @token
+  # update pasword also
+  def reset
+    if @password_reset_token && @password_reset_token.expires_at > Time.now
+      # Token is valid, allow the user to reset the password
+      if @user.update(password: params[:password])
+        # Password update was successful, now invalidate the token by setting its expiration date to the past.
+        @password_reset_token.update(expires_at: Time.now)
+        render json: { message: "Password reset successful.",user: @user}
+      else
+        render json: { error: "Password update failed." }, status: :unprocessable_entity
+      end
+    else
+      render json: { error: "Invalid or expired token." }, status: :unprocessable_entity
+    end
   end
-
-  # POST /tokens
+  
   def create
-    @token = Token.new(token_params)
+    if @user
+      existing_tokens = @user.tokens
+                            .where("expires_at > ?", Time.now)
+                            .to_a
 
-    if @token.save
-      render json: @token, status: :created, location: @token
+      if existing_tokens.any?
+        # Token already exists, send the appropriate message as JSON
+        render json: { message: 'An email with instructions has already been sent to your inbox, Please check it. ' }
+      else
+        # No existing token was found, generate and save a new one
+        token = generate_reset_token(@user)
+        
+        if token
+          url = "http://localhost:1420/reset/#{token}"
+
+          # Send the password reset email with the link containing the token
+          TokenMailer.reset_password_email(@user, url).deliver_now
+
+          render json: { message: "Reset link has been sent to your email", token: token }, status: :accepted
+        else
+          render json: { error: "Failed to create a new token." }, status: :unprocessable_entity
+        end
+      end
     else
-      render json: @token.errors, status: :unprocessable_entity
+      render json: { error: "No Account for #{params[:email]}" }, status: :not_found
     end
   end
-
-  # PATCH/PUT /tokens/1
-  def update
-    if @token.update(token_params)
-      render json: @token
-    else
-      render json: @token.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /tokens/1
-  def destroy
-    @token.destroy!
-  end
+  
+  
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_token
-      @token = Token.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def token_params
-      params.require(:token).permit(:user_id, :token, :expires_at)
-    end
+  def set_user
+    @user = User.find_by(email: params[:email])
+  end
+  
+
+  def find_token_and_user
+    user_id = params[:id]
+    token = params[:token]
+    @password_reset_token = Token.find_by(token: token)
+    @user = @password_reset_token&.user
+  end
+
+  def generate_reset_token(user)
+    token = SecureRandom.urlsafe_base64(32)
+    Token.create(user: user, token: token, expires_at: 20.minutes.from_now)
+    token
+  end
+
+  def send_password_reset_email(user, token)
+    # Send an email with a link containing the reset_token.
+    # You can use a mailer for this purpose.
+  end
 end
