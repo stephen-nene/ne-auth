@@ -41,13 +41,13 @@ export const handleServerLogin = async (dispatch, formData, navigate) => {
   }
 };
 
-export const handleForgotPass= async (email, setMessage, setError) => {
+export const handleForgotPass= async (email, setServerMessage, setError) => {
   const loadingMessage = showMessage('loading', 'Sending email...', 0);
   try {
     const response = await axios.post(`${apiUrl}/forgot`, {email});
-    console.log(response)
-    if (response.status == 200) {
-      setMessage(response.data);
+    // console.log(response)
+    if (response) {
+      setServerMessage(response.data);
       showMessage('success', 'Account reset intiated', 1);
     } else {
       showMessage('error', 'Account reset failed. Please try again .', 1);
@@ -94,6 +94,31 @@ export const handleServerSignup = async (formData, setError, dispatch, navigate)
 
 };
 
+export const validateResetToken = async (token,setError,setMessage, setLoading) => {
+  setLoading(true)
+  const loadingMessage = showMessage('loading', 'Validating token...', 0);
+  try {
+    const response = await axios.post(`${apiUrl}/validate`, {token});
+    if (response.status === 200) {
+      console.log(response.data.message);
+      setMessage(response.data.message);
+      showMessage('success', 'Token validated successfully', 1);
+    } else {
+      showMessage('error', 'Token validation failed. Please try again.');
+    }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      showMessage('error', error.response.data.error);
+      setError(error.response.data.error);
+    } else {
+      showMessage('error', 'Server error. Please try again later.');
+    }
+  } finally {
+    loadingMessage();
+    setLoading(false)
+  }
+}
+
 export const handleServerCreateUser = async (user, setError, closeModal, dispatch) => {
   const loadingMessage = showMessage("loading", "Creating user...", 0);
 
@@ -121,7 +146,6 @@ export const handleServerCreateUser = async (user, setError, closeModal, dispatc
   }
 };
 
-
 export const handleServerLogout = async (dispatch, navigate) => {
   const loadingMessage = showMessage('loading', 'Logging out ...', 0);
   try {
@@ -143,19 +167,22 @@ export const handleServerLogout = async (dispatch, navigate) => {
   }
 };
 
-export const handleServerPasswordUpdate = async (formData, showMessage, navigate) => {
+export const handlePasswordUpdate = async (token, password, navigate,setError, dispatch) => {
   const loadingMessage = showMessage('loading', 'Updating password ...', 0);
   try {
-    const response = await axios.post(`${apiUrl}/user/update`, formData);
+    const response = await axios.post(`${apiUrl}/reset`, {token,password});
     if (response.status === 200) {
+      console.log(response.data)
       showMessage('success', 'Password updated successfully', 1);
-      navigate('/login'); // Redirect to the login page after a successful password update.
+      dispatch(login(response.data))
+      // navigate('/profile'); // Redirect to the login page after a successful password update.
     } else {
       showMessage('error', 'Password update failed. Please try again.', 1);
     }
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
       showMessage('error', error.response.data.error);
+      setError(error.response.data.message)
     } else {
       showMessage('error', 'Server error. Please try again later.');
     }
@@ -163,9 +190,6 @@ export const handleServerPasswordUpdate = async (formData, showMessage, navigate
     loadingMessage();
   }
 };
-
-
-
 
 // export const handleGetCurrentUser = async (dispatch, navigate,setLoginPrompt) => {
 //     // const loadingMessage = showMessage('loading', 'Getting current user ...', 0);

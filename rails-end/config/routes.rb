@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
   post '/create', to: 'sessions#new'
 
-  post "/confirm", to: "tokens#validate"
+  post "/validate", to: "tokens#validate"
   post "/forgot", to: "tokens#create"
   post "/reset", to: "tokens#reset"
   

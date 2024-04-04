@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 const ProtectedRoute = ({ element, allowedRoles }) => {
   const userData = useSelector((state) => state.user.userData);
   const darkMode = useSelector((state) => state.app.darkMode);
-
+// console.log(userData)
   if (!userData || !Object.keys(userData).length) {
     return <NotLoggedIn darkMode={darkMode} />;
   }

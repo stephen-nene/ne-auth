@@ -60,7 +60,7 @@ function App() {
 
 
           <Route path="/forgot" element={<Forgot darkMode={darkMode} />} />
-          <Route path="/reset/:secret" element={<Reset darkMode={darkMode} />} />
+          <Route path="/reset/:token" element={<Reset darkMode={darkMode} />} />
 
           <Route path="/unauthorized" element={<Unauthorised />} />
           <Route path="/not-logged-in" element={<NotLoggedIn />} />

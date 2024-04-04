@@ -8,9 +8,9 @@
     if @password_reset_token && @password_reset_token.expires_at > Time.now
       # Token is valid, allow the user to reset the password
       user = @password_reset_token.user
-      render json: { message: "valid password token #{user.email} ", email: "#{user.email}" }
+      render json: { message: "valid password reset token for #{user.username} ", email: "#{user.email}" }
     else
-      render json: { error: "Invalid or expired token." }, status: :unprocessable_entity
+      render json: { error: "The reset link used is invalid Invalid or expired token." }, status: :unprocessable_entity
     end
   end
   
@@ -22,7 +22,7 @@
       if @user.update(password: params[:password])
         # Password update was successful, now invalidate the token by setting its expiration date to the past.
         @password_reset_token.update(expires_at: Time.now)
-        render json: { message: "Password reset successful." }
+        render json: { message: "Password reset successful.",user: @user}
       else
         render json: { error: "Password update failed." }, status: :unprocessable_entity
       end
@@ -39,7 +39,7 @@
 
       if existing_tokens.any?
         # Token already exists, send the appropriate message as JSON
-        render json: { message: 'An email has been sent to your inbox, Please check it. ', token: existing_tokens.first.token }
+        render json: { message: 'An email with instructions has already been sent to your inbox, Please check it. ' }
       else
         # No existing token was found, generate and save a new one
         token = generate_reset_token(@user)
