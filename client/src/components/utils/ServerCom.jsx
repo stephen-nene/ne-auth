@@ -6,9 +6,9 @@ import { login, logout, signupAction } from "../../assets/store/actions/userActi
 // import { setArticles, setMeetings, setUsers, createUser, setAddNewMeeting, setAddNewArticle, deleteArticle, updateMeetingStatus, updateArticleStatus } from "./store/actions/appAction";
 
 
-const apiUrl = 'http://127.0.0.1:3000'
+// const apiUrl = 'http://127.0.0.1:3000/'
 
-// const apiUrl = 'https://neauth.onrender.com'
+const apiUrl = 'https://neauth.onrender.com'
 // const apiUrl = '/api'
 
 function showMessage(type, content, duration) {
@@ -19,7 +19,7 @@ function showMessage(type, content, duration) {
 }
 
 
-export const handleServerLogin = async (dispatch, formData, navigate) => {
+export const handleServerLogin = async (dispatch, formData, navigate, serError) => {
   const loadingMessage = showMessage('loading', 'Logging in ...', 0);
   try {
     // console.log(formData)
@@ -34,6 +34,7 @@ export const handleServerLogin = async (dispatch, formData, navigate) => {
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
       showMessage('error', error.response.data.error);
+      serError(error.response.data.error);
     } else {
       showMessage('error', 'server error. Please try again later.');
     }

@@ -47,7 +47,15 @@ export default function Login({ darkMode, userData }) {
             message.error("Please fill in all fields");
             return;
         }
-        handleServerLogin(dispatch, { email, password, rememberMe }, navigate)
+        if (userData && Object.keys(userData).length){
+            message.success(`Already Logged in as ${userData.user.username}`);
+            setTimeout(() => {
+                navigate("/profile");
+            }, 2000); 
+        }else{
+
+            handleServerLogin(dispatch, { email, password, rememberMe }, navigate, setError)
+        }
     };
 
     return (
@@ -113,7 +121,7 @@ export default function Login({ darkMode, userData }) {
                 </form>
                 {error &&
                     <p className={`mt-4 text-rose-600 ${darkMode ? 'text-gray-400' : ''} `}>
-                        No account is associated with that email.
+                        {error}
                     </p>
                 }
                 {/* Not Registered */}

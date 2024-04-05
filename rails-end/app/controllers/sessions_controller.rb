@@ -13,17 +13,20 @@ class SessionsController < ApplicationController
   
     # /login
     def create
-        @user = User.find_by_email(params[:email]) || User.find_by_username(params[:user_name])
-      
-        if @user&.authenticate(params[:password])
-          if params[:rememberMe]
-            session[:user_id] = @user.id
-          end
-          render json: { user: @user }, status: :ok
-        else
-          render json: { error: "Invalid email or password" }, status: :unauthorized
+      @user = User.find_by_email(params[:email]) || User.find_by_username(params[:user_name])
+    
+      if @user.nil?
+        render json: { error: "No Account is associated with that Email" }, status: :not_found
+      elsif !@user.authenticate(params[:password])
+        render json: { error: "Invalid password please try again" }, status: :unauthorized
+      else
+        if params[:rememberMe]
+          session[:user_id] = @user.id
         end
+        render json: { user: @user }, status: :ok
+      end
     end
+    
       
   
     # /create

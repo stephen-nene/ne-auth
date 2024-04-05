@@ -7,6 +7,7 @@
 
 allowed_origins = [
     "http://localhost:1420",
+    "https://ne-auth.vercel.app",
   ]
   
   Rails.application.config.middleware.insert_before 0, Rack::Cors do

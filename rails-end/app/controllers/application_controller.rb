@@ -4,11 +4,12 @@ class ApplicationController < ActionController::API
     # before_action :authorized, except: [:index, :react]
   
     def index
-      render file: "public/api.html"
+      # render file: "public/api.html"
+      render json: {message: "Hello World from Ecoblazz server"}, status: 200
     end
   
-    def react
-      render file: "public/index.html"
-    end
+    # def react
+    #   render file: "public/index.html"
+    # end
   
 end
