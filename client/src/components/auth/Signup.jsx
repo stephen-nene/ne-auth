@@ -35,7 +35,7 @@ export default function Signup({ darkMode }) {
 
         const userData = { username, email, password };
 
-        axios.post('http://127.0.0.1:3000/create', userData)
+        axios.post('https://neauth.onrender.com/create', userData)
             .then(response => {
                 console.log(response.data);
                 message.success("User data sent successfully");
