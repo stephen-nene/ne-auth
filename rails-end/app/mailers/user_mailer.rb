@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
   end
 
   def change_password(user)
-    @url = 'http://localhost:1420/forgot'
+    @url = 'https://ne-auth.vercel.app/forgot'
     @user = user
     mail(to: @user.email, subject: "Security risk for your account")
   end

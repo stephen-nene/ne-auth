@@ -45,7 +45,7 @@
         token = generate_reset_token(@user)
         
         if token
-          url = "http://localhost:1420/reset/#{token}"
+          url = "https://ne-auth.vercel.app/reset/#{token}"
 
           # Send the password reset email with the link containing the token
           TokenMailer.reset_password_email(@user, url).deliver_now

@@ -177,7 +177,7 @@ export const handlePasswordUpdate = async (token, password, navigate,setError, d
       console.log(response.data)
       showMessage('success', 'Password updated successfully', 1);
       dispatch(login(response.data))
-      // navigate('/profile'); // Redirect to the login page after a successful password update.
+      navigate('/profile'); // Redirect to the login page after a successful password update.
     } else {
       showMessage('error', 'Password update failed. Please try again.', 1);
     }
