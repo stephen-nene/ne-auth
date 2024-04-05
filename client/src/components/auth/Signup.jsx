@@ -1,21 +1,24 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaTiktok, FaXTwitter, FaInstagram, FaGithub, FaFacebookF, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { message, Alert } from "antd";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
 
 import leaf from '../../assets/images/tech1.jpeg';
+import {handleServerSignup} from "../utils/ServerCom"
 
 export default function Signup({ darkMode }) {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const togglePasswordVisibility = () => {
         setPasswordVisible((prevState) => !prevState);
     };
@@ -35,22 +38,7 @@ export default function Signup({ darkMode }) {
 
         const userData = { username, email, password };
 
-        axios.post('https://neauth.onrender.com/create', userData)
-            .then(response => {
-                console.log(response.data);
-                message.success("User data sent successfully");
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                if (Array.isArray(error.response.data)) {
-                    const errorMessage = error.response.data.join(", ");
-                    setError(errorMessage);
-                    message.error(errorMessage);
-                } else {
-                    setError(error.response.data);
-                    message.error(error.response.data);
-                }
-            });
+        handleServerSignup(userData,setError,dispatch,navigate);
 
     };
 

@@ -6,9 +6,9 @@ import { login, logout, signupAction } from "../../assets/store/actions/userActi
 // import { setArticles, setMeetings, setUsers, createUser, setAddNewMeeting, setAddNewArticle, deleteArticle, updateMeetingStatus, updateArticleStatus } from "./store/actions/appAction";
 
 
-// const apiUrl = 'http://127.0.0.1:3000/'
+const apiUrl = 'http://127.0.0.1:3000'
 
-const apiUrl = 'https://neauth.onrender.com'
+// const apiUrl = 'https://neauth.onrender.com'
 // const apiUrl = '/api'
 
 function showMessage(type, content, duration) {
@@ -71,20 +71,27 @@ export const handleServerSignup = async (formData, setError, dispatch, navigate)
   const loadingMessage = showMessage('loading', 'Signing up...', 0);
 
   try {
-    const response = await axios.post(`${apiUrl}/users`, { ...formData, sendResetEmail: false });
+    const response = await axios.post(`${apiUrl}/create`, { ...formData, sendResetEmail: false });
 
     if (response.status === 201) {
       showMessage('success', 'Signed up successfully', 3);
       dispatch(signupAction(response.data));
-      navigate('/dashboard');
+      navigate('/profile');
       setError('');
     } else {
       showMessage('error', 'Signup failed. Please try again.');
     }
   } catch (error) {
     if (error.response && error.response.data) {
-      setError(error.response.data);
-      console.error('Error:', error.response.data);
+      if (Array.isArray(error.response.data)) {
+        const errorMessage = error.response.data.join(", ");
+        setError(errorMessage);
+        showMessage('error', errorMessage,3)
+    } else {
+        setError(error.response.data);
+        showMessage('error', error.response.data,2);
+        // message.error(error.response.data);
+    }
       showMessage('error', 'Errors: Please check the fields.');
     } else {
       console.error('Error in response:', error);

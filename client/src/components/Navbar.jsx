@@ -6,12 +6,14 @@ import { IoClose } from "react-icons/io5";
 
 import { setDarkMode } from "../assets/store/actions/appAction";
 
-function Navbar({ loggedin = !true }) {
+function Navbar({ }) {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigationRef = useRef();
   const darkMode = useSelector(state => state.app.darkMode);
+  const loggedin = useSelector(state => state.user.loggedIn);
   const dispatch = useDispatch();
+  // console.log(loggedin)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +51,7 @@ function Navbar({ loggedin = !true }) {
 
   return (
     <div
-    ref={navigationRef}
+      ref={navigationRef}
       className={`fixed top-0 w-full z-10 duration-100 ease-in-out ${darkMode ? 'bg-sky-500 text-black' : 'bg-sky-950 text-white'}  bg-opacity- backdrop-blur-xl
    ${!isScrolled && !toggleMenu ? "bg-transparen" : "  "}`}
     >
