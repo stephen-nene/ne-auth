@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { FaXTwitter, FaEye, FaEyeSlash, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { message } from "antd";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 import { handleServerLogin } from '../utils/ServerCom'
@@ -54,6 +53,7 @@ export default function Login({ darkMode, userData }) {
     return (
         <div className="flex justify-center h-screen">
             {/* Left Side */}
+
             <div className={`hidden lg:flex w-full lg:w-1/2 items-center justify-center ${darkMode ? 'bg-gray-100' : 'bg-gray-700'}`}>
                 {/* Left Side Content */}
                 <div className="p-6 rounded-md text-center">
@@ -70,6 +70,19 @@ export default function Login({ darkMode, userData }) {
 
             {/* Right Side */}
             <div className={`flex flex-col justify-center w-full lg:w-1/2  ${darkMode ? 'bg-gray-300' : 'bg-gray-800'} p-8`}>
+                {userData &&
+                    <>
+                    <div className="my-8">
+
+          <Link
+            to="/profile"
+            className=" px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition duration-300 ease-in-out"
+          >
+            Head to Profile
+          </Link>
+                    </div>
+
+                    </>}
                 <h1 className={`text-3xl font-bold mb-4`}>Sign in to your account</h1>
                 <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
                     Continue on your path in our platform.

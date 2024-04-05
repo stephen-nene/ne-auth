@@ -7,7 +7,8 @@ import { login, logout, signupAction } from "../../assets/store/actions/userActi
 
 
 const apiUrl = 'http://127.0.0.1:3000'
-// const apiUrl = 'https://www.fountainofhopepsychotherapy.com/api'
+
+// const apiUrl = 'https://neauth.onrender.com'
 // const apiUrl = '/api'
 
 function showMessage(type, content, duration) {
@@ -21,12 +22,12 @@ function showMessage(type, content, duration) {
 export const handleServerLogin = async (dispatch, formData, navigate) => {
   const loadingMessage = showMessage('loading', 'Logging in ...', 0);
   try {
+    // console.log(formData)
     const response = await axios.post(`${apiUrl}/login`, formData);
     if (response.status == 200) {
-      // console.log(response.data)
       dispatch(login(response.data));
       showMessage('success', 'Logged in successfully', 1);
-      // navigate('/dashboard');
+      navigate('/profile');
     } else {
       showMessage('error', 'Login failed. Please try again .', 1);
     }

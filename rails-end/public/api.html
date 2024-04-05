@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our API Endpoints</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="bg-gray-800 py-4">
+    <div class="container mx-auto flex justify-between items-center px-4">
+        <h1 class="text-xl font-semibold">EcoBlazz Webserver</h1>
+        <!-- Dark Mode Toggler -->
+
+    </div>
+</nav>
+<div class="flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl text-center text-gray-900 font-bold mb-8">
+        Thank you for visiting our web server hosted sit
+    </h1>
+    <div class="max-w-lg bg-white p-8 rounded-lg shadow-md text-gray-800">
+        <!-- <p class="mb-4">Thank you for visiting our web server hosted site!</p> -->
+        <p class="mb-4">Here you can explore various API endpoints to access data or perform actions.</p>
+        <p class="mb-4">Please refer to the API documentation for detailed information on available endpoints and their usage.</p>
+        <p class="mb-4">If you have any questions or need assistance, feel free to contact us.</p>
+    </div>
+</div>
+
+
+
+    <!-- Dark Mode Toggle Script -->
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+        });
+    </script>
+</body>
+
+
+</html>
