@@ -6,9 +6,9 @@ import { login, logout, signupAction } from "../../assets/store/actions/userActi
 // import { setArticles, setMeetings, setUsers, createUser, setAddNewMeeting, setAddNewArticle, deleteArticle, updateMeetingStatus, updateArticleStatus } from "./store/actions/appAction";
 
 
-const apiUrl = 'http://127.0.0.1:3000'
+// const apiUrl = 'http://127.0.0.1:3000'
 
-// const apiUrl = 'https://neauth.onrender.com'
+const apiUrl = 'https://neauth.onrender.com'
 // const apiUrl = '/api'
 
 function showMessage(type, content, duration) {
