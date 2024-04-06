@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post "/validate", to: "tokens#validate"
   post "/forgot", to: "tokens#create"
   post "/reset", to: "tokens#reset"
+  post '/activate', to: 'tokens#activate_account'
   
   # Defines the root path route ("/")
   root "application#index"

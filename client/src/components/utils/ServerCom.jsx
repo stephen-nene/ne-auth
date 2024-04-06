@@ -6,8 +6,8 @@ import { login, logout, signupAction } from "../../assets/store/actions/userActi
 // import { setArticles, setMeetings, setUsers, createUser, setAddNewMeeting, setAddNewArticle, deleteArticle, updateMeetingStatus, updateArticleStatus } from "./store/actions/appAction";
 
 
-// const apiUrl = 'http://127.0.0.1:3000'
 
+// const apiUrl = 'http://127.0.0.1:3000'
 const apiUrl = 'https://neauth.onrender.com'
 // const apiUrl = '/api'
 
@@ -108,6 +108,31 @@ export const validateResetToken = async (token,setError,setMessage, setLoading) 
   const loadingMessage = showMessage('loading', 'Validating token...', 0);
   try {
     const response = await axios.post(`${apiUrl}/validate`, {token});
+    if (response.status === 200) {
+      console.log(response.data.message);
+      setMessage(response.data.message);
+      showMessage('success', 'Token validated successfully', 1);
+    } else {
+      showMessage('error', 'Token validation failed. Please try again.');
+    }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      showMessage('error', error.response.data.error);
+      setError(error.response.data.error);
+    } else {
+      showMessage('error', 'Server error. Please try again later.');
+    }
+  } finally {
+    loadingMessage();
+    setLoading(false)
+  }
+}
+
+export const validateToken = async (token,setError,setMessage, setLoading) => {
+  setLoading(true)
+  const loadingMessage = showMessage('loading', 'Validating token...', 0);
+  try {
+    const response = await axios.post(`${apiUrl}/activate`, {token});
     if (response.status === 200) {
       console.log(response.data.message);
       setMessage(response.data.message);

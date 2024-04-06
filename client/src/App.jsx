@@ -12,6 +12,7 @@ import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Forgot from "./components/auth/Forgot";
 import Reset from "./components/auth/reset";
+import Activate from "./components/auth/Activate";
 
 import Error404 from "./components/utils/Error404";
 import Unauthorised from "./components/utils/Unauthorised";
@@ -61,6 +62,7 @@ function App() {
 
           <Route path="/forgot" element={<Forgot darkMode={darkMode} />} />
           <Route path="/reset/:token" element={<Reset darkMode={darkMode} />} />
+          <Route path="/activate/:token" element={<Activate darkMode={darkMode} />} />
 
           <Route path="/unauthorized" element={<Unauthorised />} />
           <Route path="/not-logged-in" element={<NotLoggedIn />} />

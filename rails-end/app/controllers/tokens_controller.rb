@@ -3,6 +3,20 @@
   before_action :set_user, only: [:create]
   before_action :find_token_and_user, only: [:validate, :reset]
 
+
+  def activate_account
+    @token = Token.find_by(token: params[:token])
+
+    if @token && @token.expires_at > Time.now
+      @user = @token.user
+      @user.update(status: :active)
+      render json: { message: "Account activated successfully." }
+    else
+      render json: { error: "Invalid or expired activation token." }, status: :unprocessable_entity
+    end
+  end
+
+
   # validate
   def validate
     if @password_reset_token && @password_reset_token.expires_at > Time.now
@@ -61,7 +75,6 @@
   end
   
   
-
   private
 
   def set_user
