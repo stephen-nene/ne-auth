@@ -75,10 +75,10 @@ export default function Profile({ darkMode }) {
                             <p className="text-gray-600">Full Name:</p>
                             <p className="font-semibold">{userData.first_name} {userData.last_name ?? "null"}</p>
                         </div>
-                        <div>
+                        {/* <div>
                             <p className="text-gray-600">Location:</p>
                             <p className="font-semibold">{userData.location || "null"}</p>
-                        </div>
+                        </div> */}
                         <div>
                             <p className="text-gray-600">Role:</p>
                             <p className="font-semibold">{userData.role || "null"}</p>
@@ -98,89 +98,89 @@ export default function Profile({ darkMode }) {
                 {/* Profile udate Section */}
                 <div className={`mb-8 ${darkMode ? "bg-slate-200" : "bg-slate-900"} p-3 rounded-xl`}>
                     <h3 className="text-2xl font-bold mb-4">Update Profile </h3>
-                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-6 ${!darkMode?'text-gray-900':''}`}> {/* Use single column on small screens and two columns on medium screens and above */}
-    <div className={`flex flex-col `}>
-        <label htmlFor="username" className="text-gray-600 mb-1">Username:</label>
-        <input
-            type="text"
-            id="username"
-            placeholder={userData.username}
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-        />
-    </div>
-    <div className="flex flex-col">
-        <label htmlFor="email" className="text-gray-600 mb-1">Email:</label>
-        <input
-            type="email"
-            id="email"
-            placeholder={userData.email}
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-        />
-    </div>
-    <div className="flex flex-col">
-        <label htmlFor="phoneNumber" className="text-gray-600 mb-1">Phone Number:</label>
-        <input
-            type="tel"
-            id="phoneNumber"
-            placeholder={userData.number}
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-        />
-    </div>
-    <div className="flex flex-col">
-        <label htmlFor="firstName" className="text-gray-600 mb-1">First Name:</label>
-        <input
-            type="text"
-            id="firstName"
-            placeholder={userData.first_name}
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-        />
-    </div>
-    <div className="flex flex-col">
-        <label htmlFor="lastName" className="text-gray-600 mb-1">Last Name:</label>
-        <input
-            type="text"
-            id="lastName"
-            placeholder={userData.last_name}
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-        />
-    </div>
-    <div className="flex flex-col gap-">
-    <label htmlFor="lastName" className="text-gray-600 mb-2">Password:</label>
-    <div className="relative">
-        
-    <input
-        className={`border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 w-full`}
-        type={passwordVisible ? "text" : "password"}
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-    />     
-        
-    {passwordVisible ? (
-        <FaEyeSlash className="absolute inset-y-3 right-6 cursor-pointer" onClick={togglePasswordVisibility} />
-        ) : (
-            <FaEye className="absolute inset-y-3 right-6 cursor-pointer" onClick={togglePasswordVisibility} />
-            )}
-</div>
+                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-6 ${!darkMode ? 'text-gray-900' : ''}`}> {/* Use single column on small screens and two columns on medium screens and above */}
+                        <div className={`flex flex-col `}>
+                            <label htmlFor="username" className="text-gray-500 mb-1">Username:</label>
+                            <input
+                                type="text"
+                                id="username"
+                                placeholder={userData.username}
+                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="email" className="text-gray-500 mb-1">Email:</label>
+                            <input
+                                type="email"
+                                id="email"
+                                placeholder={userData.email}
+                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="phoneNumber" className="text-gray-500 mb-1">Phone Number:</label>
+                            <input
+                                type="tel"
+                                id="phoneNumber"
+                                placeholder={userData.number}
+                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="firstName" className="text-gray-500 mb-1">First Name:</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                placeholder={userData.first_name}
+                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label htmlFor="lastName" className="text-gray-500 mb-1">Last Name:</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                placeholder={userData.last_name}
+                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-">
+                            <label htmlFor="lastName" className="text-gray-500 mb-2">Password:</label>
+                            <div className="relative">
 
-{/* Confirm Password Field */}
-            <label htmlFor="lastName" className="text-gray-600 my-2">Confirm Password:</label>
-<div className="relative">
-    <input
-        className={`border border-gray-300 rounded-md py-2 w-full px-3 focus:outline-none focus:border-blue-500`}
-        type={confirmPasswordVisible ? "text" : "password"}
-        placeholder="Password confirmation"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-    />
-    {confirmPasswordVisible ? (
-        <FaEyeSlash className="absolute inset-y-3 right-6 flex items-center cursor-pointer" onClick={toggleConfirmPasswordVisibility} />
-        ) : (
-            <FaEye className="absolute inset-y-3 right-6 flex items-center cursor-pointer" onClick={toggleConfirmPasswordVisibility} />
-    )}
-</div>
-    </div>
-</div>
+                                <input
+                                    className={`border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 w-full`}
+                                    type={passwordVisible ? "text" : "password"}
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+
+                                {passwordVisible ? (
+                                    <FaEyeSlash className="absolute inset-y-3 right-6 cursor-pointer" onClick={togglePasswordVisibility} />
+                                ) : (
+                                    <FaEye className="absolute inset-y-3 right-6 cursor-pointer" onClick={togglePasswordVisibility} />
+                                )}
+                            </div>
+
+                            {/* Confirm Password Field */}
+                            <label htmlFor="lastName" className="text-gray-500 my-2">Confirm Password:</label>
+                            <div className="relative">
+                                <input
+                                    className={`border border-gray-300 rounded-md py-2 w-full px-3 focus:outline-none focus:border-blue-500`}
+                                    type={confirmPasswordVisible ? "text" : "password"}
+                                    placeholder="Password confirmation"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                {confirmPasswordVisible ? (
+                                    <FaEyeSlash className="absolute inset-y-3 right-6 flex items-center cursor-pointer" onClick={toggleConfirmPasswordVisibility} />
+                                ) : (
+                                    <FaEye className="absolute inset-y-3 right-6 flex items-center cursor-pointer" onClick={toggleConfirmPasswordVisibility} />
+                                )}
+                            </div>
+                        </div>
+                    </div>
 
                     <div className="my-4 img rounded-full sm:w-[50%] md:w-[40%] lg:w-[30%] xl:w-[25%]"> {/* Adjust image width based on screen size */}
                         <h3 className="text-2xl font-bold mb-4">Profile Picture</h3>
