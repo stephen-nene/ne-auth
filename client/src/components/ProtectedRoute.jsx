@@ -1,15 +1,20 @@
 import { Route, Navigate, Routes } from "react-router-dom";
 import Unauthorised from "./utils/Unauthorised";
 import NotLoggedIn from "./utils/NotLoggedIn";
+import Activate from "./utils/Activate";
 import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ element, allowedRoles }) => {
   const userData = useSelector((state) => state.user.userData);
   const darkMode = useSelector((state) => state.app.darkMode);
-// console.log(userData)
+console.log(userData)
   if (!userData || !Object.keys(userData).length) {
     return <NotLoggedIn darkMode={darkMode} />;
   }
+
+  // if(userData.user.status === 'pending'){
+  //   return <Activate darkMode={darkMode}/>
+  // }
 
   if (!allowedRoles.includes(userData.user.role)) {
     return <Unauthorised darkMode={darkMode} />;
