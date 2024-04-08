@@ -6,8 +6,8 @@
 
   def activate_account
     if @user && @token && @token.expires_at > Time.now
-      @user.update(status: :active)
-      render json: { message: "Account activated successfully." }
+      @user.update_columns(status: :active)
+      render json: { user: @user, message: "Account activated successfully." }
     else
       render json: { error: "Invalid or expired activation token." }, status: :unprocessable_entity
     end

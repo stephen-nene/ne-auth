@@ -128,20 +128,21 @@ export const validateResetToken = async (token,setError,setMessage, setLoading) 
   }
 }
 
-export const activateAccount = async (token,setError,setMessage, setLoading) => {
+export const activateAccount = async (token,setError,setMessage, setLoading, dispatch) => {
   setLoading(true)
   const loadingMessage = showMessage('loading', 'Validating token...', 0);
   try {
     const response = await axios.post(`${apiUrl}/activate`, {token});
     if (response.status === 200) {
       console.log(response.data);
+      dispatch(login(response.data));
       setMessage(response.data.message);
       showMessage('success', 'Token validated successfully', 1);
     } else {
       showMessage('error', 'Token validation failed. Please try again.');
     }
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     if (error.response && error.response.data && error.response.data.error) {
       showMessage('error', error.response.data.error);
       setError(error.response.data.error);
@@ -160,7 +161,7 @@ export const reactivateAccount = async (email,setError,setServerMessage, setLoad
   try {
     const response = await axios.post(`${apiUrl}/reactivate`, {email});
     if (response.status === 200) {
-      console.log(response.data);
+      // console.log(response.data);
       setServerMessage(response.data.message);
       showMessage('success', 'Account Reactivation successfully', 1);
     } else {

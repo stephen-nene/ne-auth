@@ -16,9 +16,18 @@ export default function Activate({ darkMode, user }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        activateAccount(token, setError, setServerMessage, setLoading);
+        activateAccount(token, setError, setServerMessage, setLoading, dispatch);
 
     }, [token]);
+
+    useEffect(() => {
+        if (error === "Invalid or expired activation token.") {
+          setTimeout(() => {
+            navigate("/profile");
+          }, 5000); // Navigate to profiles page after 5 seconds
+        }
+      }, [error]);
+    
 
     const handleReactivate = (e) => {
         e.preventDefault();
@@ -60,18 +69,18 @@ export default function Activate({ darkMode, user }) {
 
                         <div className="">
                             <h1 className="text-3xl font-bold mb-4">Account activated successfully?</h1>
-                            <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} my-3`}>
-                                Redirecting you soon ....
-                            </p>
-
 
                             {servermessage &&
                                 <>
-                                    <p className={`text-green-600 mb-8 ${darkMode ? 'text-gray-400' : ''} `}>
+                                    <p className={`text-green-600 mb-5 ${darkMode ? 'text-gray-400' : ''} `}>
                                         {servermessage}
                                     </p>
                                 </>
                             }
+                            <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} my-3`}>
+                                Redirecting you soon ....
+                            </p>
+
 
                         </div>
                         :
@@ -80,16 +89,18 @@ export default function Activate({ darkMode, user }) {
                             <p className={`text-rose-600 ${darkMode ? 'text-gray-400' : ''} mb-8`}>
                                 {error}
                             </p>
-
+                            <p className={`text-gray-600 ${darkMode ? 'text-gray-400' : ''} my-3`}>
+                                Redirecting you soon ....
+                            </p>
                             {/* Reset Form */}
 
 
-                            <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>
+                            {/* <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>
                                 Try to Reactivate your account again {" "}
                                 <Link onClick={(e) => handleReactivate(e)} className={`text-blue-500 ${darkMode ? 'dark:text-blue-400' : ''}`} >
                                     here
                                 </Link>
-                            </p>
+                            </p> */}
 
                         </div>
 
