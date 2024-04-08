@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaTiktok, FaXTwitter, FaEye, FaEyeSlash, FaInstagram, FaGithub, FaFacebookF } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
 import { message } from "antd";
-import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux"
 import leaf from '../../assets/images/tech2.jpeg';
 
-import { handlePasswordUpdate } from '../utils/ServerCom'
-import { validateToken } from "../utils/ServerCom";
+import { activateAccount,reactivateAccount } from "../utils/ServerCom";
 
-export default function Activate({ darkMode }) {
+export default function Activate({ darkMode, user }) {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const [servermessage, setServerMessage] = useState("")
@@ -20,22 +16,20 @@ export default function Activate({ darkMode }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        validateToken(token, setError, setServerMessage, setLoading);
+        activateAccount(token, setError, setServerMessage, setLoading);
 
     }, [token]);
 
-
-    const handleSubmit = (e) => {
+    const handleReactivate = (e) => {
         e.preventDefault();
 
-        // Check if any field is missing data
-        if (!password || !confirmPassword) {
-            message.success("Please fill in all fields");
+        if (!user) {
+            message.warning("You have to be logged to perform this action",4);
             return;
         }
-        handlePasswordUpdate(token, password, navigate, setError, dispatch);
+        reactivateAccount(user.user.email, setError, setServerMessage, setLoading);
 
-        console.log("User data:", { password, confirmPassword });
+        console.log("User data:",  user.user.email);
     };
 
 
@@ -88,17 +82,15 @@ export default function Activate({ darkMode }) {
                             </p>
 
                             {/* Reset Form */}
-                            <form onSubmit={handleSubmit}>
 
-                                <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>Try to{" "}
-                                    <Link to="/" className={`text-blue-500 ${darkMode ? 'dark:text-blue-400' : ''}`} >
-                                        Activate
-                                    </Link> your account again  {" "}
 
-                                </p>
-                                {/* Login Button */}
+                            <p className={` ${darkMode ? 'text-gray-700' : 'text-gray-200'} `}>
+                                Try to Reactivate your account again {" "}
+                                <Link onClick={(e) => handleReactivate(e)} className={`text-blue-500 ${darkMode ? 'dark:text-blue-400' : ''}`} >
+                                    here
+                                </Link>
+                            </p>
 
-                            </form>
                         </div>
 
                 )}

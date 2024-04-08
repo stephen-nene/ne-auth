@@ -7,8 +7,8 @@ import { login, logout, signupAction } from "../../assets/store/actions/userActi
 
 
 
-// const apiUrl = 'http://127.0.0.1:3000'
-const apiUrl = 'https://neauth.onrender.com'
+const apiUrl = 'http://127.0.0.1:3000'
+// const apiUrl = 'https://neauth.onrender.com'
 // const apiUrl = '/api'
 
 function showMessage(type, content, duration) {
@@ -128,19 +128,46 @@ export const validateResetToken = async (token,setError,setMessage, setLoading) 
   }
 }
 
-export const validateToken = async (token,setError,setMessage, setLoading) => {
+export const activateAccount = async (token,setError,setMessage, setLoading) => {
   setLoading(true)
   const loadingMessage = showMessage('loading', 'Validating token...', 0);
   try {
     const response = await axios.post(`${apiUrl}/activate`, {token});
     if (response.status === 200) {
-      console.log(response.data.message);
+      console.log(response.data);
       setMessage(response.data.message);
       showMessage('success', 'Token validated successfully', 1);
     } else {
       showMessage('error', 'Token validation failed. Please try again.');
     }
   } catch (error) {
+    console.log(error)
+    if (error.response && error.response.data && error.response.data.error) {
+      showMessage('error', error.response.data.error);
+      setError(error.response.data.error);
+    } else {
+      showMessage('error', 'Server error. Please try again later.');
+    }
+  } finally {
+    loadingMessage();
+    setLoading(false)
+  }
+}
+
+export const reactivateAccount = async (email,setError,setServerMessage, setLoading) => {
+  setLoading(true)
+  const loadingMessage = showMessage('loading', 'Reactivating account ...', 0);
+  try {
+    const response = await axios.post(`${apiUrl}/reactivate`, {email});
+    if (response.status === 200) {
+      console.log(response.data);
+      setServerMessage(response.data.message);
+      showMessage('success', 'Account Reactivation successfully', 1);
+    } else {
+      showMessage('error', 'Account Reactivation  failed. Please try again.');
+    }
+  } catch (error) {
+    console.log(error)
     if (error.response && error.response.data && error.response.data.error) {
       showMessage('error', error.response.data.error);
       setError(error.response.data.error);
