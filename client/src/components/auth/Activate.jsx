@@ -25,6 +25,10 @@ export default function Activate({ darkMode, user }) {
           setTimeout(() => {
             navigate("/profile");
           }, 5000); // Navigate to profiles page after 5 seconds
+        }else if(servermessage === 'Account activated successfully.'){
+            setTimeout(() => {
+                navigate("/profile");
+            }, 5000); 
         }
       }, [error]);
     

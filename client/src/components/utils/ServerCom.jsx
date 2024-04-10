@@ -7,8 +7,8 @@ import { login, logout, signupAction } from "../../assets/store/actions/userActi
 
 
 
-const apiUrl = 'http://127.0.0.1:3000'
-// const apiUrl = 'https://neauth.onrender.com'
+// const apiUrl = 'http://127.0.0.1:3000/api'
+const apiUrl = 'https://neauth.onrender.com/api'
 // const apiUrl = '/api'
 
 function showMessage(type, content, duration) {
@@ -18,12 +18,21 @@ function showMessage(type, content, duration) {
   });
 }
 
+// Create Axios instance with default headers including API key
+const api = axios.create({
+  baseURL: apiUrl,
+  headers: {
+    'Authorization': 'Bearer secrete',
+    'Content-Type': 'application/json',
+  },
+});
+
 
 export const handleServerLogin = async (dispatch, formData, navigate, serError) => {
   const loadingMessage = showMessage('loading', 'Logging in ...', 0);
   try {
     // console.log(formData)
-    const response = await axios.post(`${apiUrl}/login`, formData);
+    const response = await api.post(`/login`, formData);
     if (response.status == 200) {
       dispatch(login(response.data));
       showMessage('success', 'Logged in successfully', 1);
@@ -46,7 +55,7 @@ export const handleServerLogin = async (dispatch, formData, navigate, serError) 
 export const handleForgotPass= async (email, setServerMessage, setError) => {
   const loadingMessage = showMessage('loading', 'Sending email...', 0);
   try {
-    const response = await axios.post(`${apiUrl}/forgot`, {email});
+    const response = await api.post(`/forgot`, {email});
     // console.log(response)
     if (response) {
       setServerMessage(response.data);
@@ -71,7 +80,7 @@ export const handleServerSignup = async (formData, setError, dispatch, navigate)
   const loadingMessage = showMessage('loading', 'Signing up...', 0);
 
   try {
-    const response = await axios.post(`${apiUrl}/create`, { ...formData, sendResetEmail: false });
+    const response = await api.post(`/create`, { ...formData, sendResetEmail: false });
 
     if (response.status === 201) {
       showMessage('success', 'Signed up successfully', 3);
@@ -107,7 +116,7 @@ export const validateResetToken = async (token,setError,setMessage, setLoading) 
   setLoading(true)
   const loadingMessage = showMessage('loading', 'Validating token...', 0);
   try {
-    const response = await axios.post(`${apiUrl}/validate`, {token});
+    const response = await api.post(`/validate`, {token});
     if (response.status === 200) {
       console.log(response.data.message);
       setMessage(response.data.message);
@@ -132,7 +141,7 @@ export const activateAccount = async (token,setError,setMessage, setLoading, dis
   setLoading(true)
   const loadingMessage = showMessage('loading', 'Validating token...', 0);
   try {
-    const response = await axios.post(`${apiUrl}/activate`, {token});
+    const response = await api.post(`/activate`, {token});
     if (response.status === 200) {
       console.log(response.data);
       dispatch(login(response.data));
@@ -159,7 +168,7 @@ export const reactivateAccount = async (email,setError,setServerMessage, setLoad
   setLoading(true)
   const loadingMessage = showMessage('loading', 'Reactivating account ...', 0);
   try {
-    const response = await axios.post(`${apiUrl}/reactivate`, {email});
+    const response = await api.post(`/reactivate`, {email});
     if (response.status === 200) {
       // console.log(response.data);
       setServerMessage(response.data.message);
@@ -185,7 +194,7 @@ export const handleServerCreateUser = async (user, setError, closeModal, dispatc
   const loadingMessage = showMessage("loading", "Creating user...", 0);
 
   try {
-    const response = await axios.post(`${apiUrl}/users`, { ...user, sendResetEmail: true });
+    const response = await api.post(`/users`, { ...user, sendResetEmail: true });
 
     if (response.status === 201) {
       showMessage("success", "User created successfully", 3);
@@ -211,7 +220,7 @@ export const handleServerCreateUser = async (user, setError, closeModal, dispatc
 export const handleServerLogout = async (dispatch, navigate) => {
   const loadingMessage = showMessage('loading', 'Logging out ...', 0);
   try {
-    const response = await axios.delete(`${apiUrl}/logout`);
+    const response = await api.delete(`/logout`);
 
     if (response.status === 200) {
       dispatch(logout());
@@ -232,7 +241,7 @@ export const handleServerLogout = async (dispatch, navigate) => {
 export const handlePasswordUpdate = async (token, password, navigate,setError, dispatch) => {
   const loadingMessage = showMessage('loading', 'Updating password ...', 0);
   try {
-    const response = await axios.post(`${apiUrl}/reset`, {token,password});
+    const response = await api.post(`/reset`, {token,password});
     if (response.status === 200) {
       console.log(response.data)
       showMessage('success', 'Password updated successfully', 1);
